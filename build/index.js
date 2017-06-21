@@ -9882,25 +9882,31 @@ var ReadImg = function (_React$Component) {
   _createClass(ReadImg, [{
     key: "onchange",
     value: function onchange() {
-      var cb = this.props.result || function (a) {
-        console.log(a);
-      };
+      var cb = this.props.result;
+      var isBlod = this.props.isBlod;
       var file = this.refs.id.files[0];
       if (!/image\/\w+/.test(file.type)) return cb(false);
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function (e) {
-        cb(this.result);
+        var result = this.result;
+        if (isBlod) result = toUrl(result);
+        return cb(this.result);
       };
+    }
+  }, {
+    key: "toUrl",
+    value: function toUrl(result) {
+      return result;
     }
   }, {
     key: "render",
     value: function render() {
-      var showcss = show ? { opacity: 0 } : {};
       var _props = this.props,
           show = _props.show,
           style = _props.style;
 
+      var showcss = show ? {} : { opacity: 0 };
 
       return React.createElement(
         "div",
@@ -9912,6 +9918,15 @@ var ReadImg = function (_React$Component) {
 
   return ReadImg;
 }(React.Component);
+
+ReadImg.defaultProps = {
+  show: true,
+  result: function result(a) {
+    return console.log(a);
+  },
+  style: {},
+  isBlod: false
+};
 
 module.exports = ReadImg;
 
@@ -9926,24 +9941,81 @@ module.exports = ReadImg;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 // import React, { Component } from 'react';
 
 var React = __webpack_require__(49);
 var ReactDOM = __webpack_require__(82);
-var ReadImg = __webpack_require__(83
-// class App extends React.Component {
-//   render() {
-//     return (
-//       <div className="App">
-//
-//           To get started, edit <code>src/App.js</code> and save to reload.
-//       </div>
-//     );
-//   }
-// }
+var ReadImg = __webpack_require__(83);
+
+var App = function (_React$Component) {
+    _inherits(App, _React$Component);
+
+    function App() {
+        _classCallCheck(this, App);
+
+        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+    }
+
+    _createClass(App, [{
+        key: 'img',
+        value: function img() {
+            var sss = this.state.sss;
+            if (sss != null) {
+                return React.createElement('img', { src: sss });
+            }
+            return React.createElement(
+                'div',
+                null,
+                'sss'
+            );
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return React.createElement(
+                'div',
+                { className: 'App' },
+                React.createElement(ReadImg, { style: {
+                        background: '#000',
+                        overflow: 'hidden',
+                        width: '100px',
+                        height: '100px',
+                        float: 'left'
+                    }, result: function result(a) {
+                        console.log(a
+                        // document.getElementById('ddd').append(`<img src="${a}" />`)
+                        );_this2.setState({ sss: a }
+                        // console.log(url)
+                        );
+                    } }),
+                React.createElement(
+                    'div',
+                    { id: 'ddd', style: {
+                            float: 'left'
+                        } },
+                    this.img.bind(this)()
+                )
+            );
+        }
+    }]);
+
+    return App;
+}(React.Component);
 
 // module.exports = App
-);ReactDOM.render(React.createElement(ReadImg, null), document.getElementById('content'));
+
+
+ReactDOM.render(React.createElement(App, null), document.getElementById('content'));
 
 // React.render(<ProductBox />, document.getElementById('content'));
 

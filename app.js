@@ -17,6 +17,8 @@ function readAsDataURL(){
     reader.onload=function(e){
         var result=document.getElementById("result");
         console.log(this.result)
+
+
         result.innerHTML='<img src="' + this.result +'" alt="" />';
     }
 }
